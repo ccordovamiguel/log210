@@ -32,8 +32,8 @@ controllers.controller('ModifierRestaurants', function($scope, $http) {
 	
 	$http.get('/api/restaurants/:id', {headers: {'Authorization' : 'Bearer ' + $scope.token}})
       .success(function(data) {
-		$scope.restaurant = data;
-		console.log(JSON.stringify(data));
+        $scope.restaurant = data;
+        console.log(JSON.stringify(data));
       });
 	
     $scope.alerts.push({msg: "Vous avez commmencé la modification !", type: 'warning'});
@@ -43,7 +43,7 @@ controllers.controller('ModifierRestaurants', function($scope, $http) {
 	
 	$http.delete('/api/restaurants/:id', {headers: {'Authorization' : 'Bearer ' + $scope.token}})
       .success(function(data) {
-		$scope.alerts.push({msg: "Restaurant détruit!", type: 'warning'});
+        $scope.alerts.push({msg: "Restaurant détruit!", type: 'warning'});
       });
 	  refreshList();
   };
