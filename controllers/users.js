@@ -37,12 +37,22 @@ exports.getUsers = function(req, res) {
 };
 
 exports.updateUser = function(req, res) {
-  if (req.params.id == req.user._id) {
+  if (req.params.id == req.user._id || req.user.type === config.types.ADMIN) {
     User.update({_id: req.params.id}, req.body, function(err, updated) {
       res.status(200).json({message: 'User updated'});
     });
   } else {
     res.status(401).json({message: 'Unauthorized'});
+  }
+};
+
+exports.deleteUser = function(req, res) {
+  if (req.user.type == config.types.ADMIN) {
+    User.remove({_id: req.params.id}, function(err, deleted) {
+      res.status(200).json({message: 'User deleted'});
+    });
+  } else {
+    res.status(401).json({message: 'Unauthorized'})
   }
 };
 
@@ -53,8 +63,3 @@ exports.getRestaurants = function(req, res) {
       res.status(200).json(user.restaurants);
     });
 };
-
-function validateBody(body) {
-  return body.email && body.password && body.type && body.name && body.phone &&
-    body.address && body.birth_date;
-}
